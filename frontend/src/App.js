@@ -13,6 +13,7 @@ function App() {
   ]);
   const [isUploading, setIsUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [hasUploadedFile, setHasUploadedFile] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFileUpload = async (file) => {
@@ -55,6 +56,9 @@ function App() {
         size: data.size,
         contentType: data.content_type
       });
+
+      // 设置文件已上传状态
+      setHasUploadedFile(true);
 
     } catch (error) {
       let errorMessage = '文件上传失败，请稍后重试。';
@@ -126,13 +130,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="container">
-        <div className="chat-container">
-          <div className="chat-header">
-            <h1>法律文件脱敏智能体</h1>
-            <p>支持PDF和Word文档内容提取</p>
-          </div>
-
+      <div className="chat-container">
           <div className="chat-messages">
             {messages.map((message) => (
               <div key={message.id} className={`message ${message.type}`}>
@@ -175,20 +173,55 @@ function App() {
                   </>
                 )}
                 
-                <div className="message-time">
+                {/* <div className="message-time">
                   {message.timestamp.toLocaleTimeString()}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
 
-          <div className="chat-input-area">
+          {!hasUploadedFile && (
+            <div className="chat-input-area">
+              <div
+                className={`file-upload-area ${dragOver ? 'dragover' : ''}`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={handleFileSelect}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+                
+                {isUploading ? (
+                  <div className="loading">
+                    <div className="spinner"></div>
+                    <span>正在处理文件...</span>
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ fontSize: '24px', marginBottom: '8px' }}>📤</div>
+                    <div className="upload-text">
+                      <p>点击此处或拖拽文件到这里上传</p>
+                      <p style={{ fontSize: '12px', marginTop: '4px' }}>
+                        支持 PDF、Word 文档 (最大 10MB)
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          {hasUploadedFile && (
             <div
-              className={`file-upload-area ${dragOver ? 'dragover' : ''}`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
+              className="floating-upload-button"
               onClick={handleFileSelect}
+              title="上传新文件"
             >
               <input
                 ref={fileInputRef}
@@ -197,26 +230,13 @@ function App() {
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
               />
-              
               {isUploading ? (
-                <div className="loading">
-                  <div className="spinner"></div>
-                  <span>正在处理文件...</span>
-                </div>
+                <div className="spinner small"></div>
               ) : (
-                <>
-                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>📤</div>
-                  <div className="upload-text">
-                    <p>点击此处或拖拽文件到这里上传</p>
-                    <p style={{ fontSize: '12px', marginTop: '4px' }}>
-                      支持 PDF、Word 文档 (最大 10MB)
-                    </p>
-                  </div>
-                </>
+                <span style={{ fontSize: '20px' }}>+</span>
               )}
             </div>
-          </div>
-        </div>
+          )}
       </div>
     </div>
   );
