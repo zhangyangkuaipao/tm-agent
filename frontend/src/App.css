@@ -1,0 +1,100 @@
+.App {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.message-content {
+  line-height: 1.5;
+}
+
+.message-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+  text-align: right;
+}
+
+.message.assistant .message-time {
+  color: #9ca3af;
+  text-align: left;
+}
+
+.file-upload-area {
+  transition: all 0.2s ease;
+}
+
+.file-upload-area:hover {
+  transform: translateY(-1px);
+}
+
+.loading {
+  justify-content: center;
+}
+
+/* 滚动条样式 */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.file-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.file-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.file-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.file-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .chat-container {
+    height: calc(100vh - 20px);
+  }
+  
+  .message {
+    max-width: 90%;
+  }
+  
+  .chat-header {
+    padding: 15px;
+  }
+  
+  .chat-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .chat-messages {
+    padding: 15px;
+  }
+  
+  .chat-input-area {
+    padding: 15px;
+  }
+}
