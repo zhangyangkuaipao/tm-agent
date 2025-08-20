@@ -13,20 +13,15 @@ class FileProcessor:
         """
         异步提取文件内容
         """
-        try:
-            if content_type == "application/pdf":
-                return await self._extract_pdf_content(file_path)
-            elif content_type in [
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "application/msword"
-            ]:
-                return await self._extract_word_content(file_path)
-            else:
-                raise ValueError(f"不支持的文件类型: {content_type}")
-        finally:
-            # 清理临时文件
-            if os.path.exists(file_path):
-                os.remove(file_path)
+        if content_type == "application/pdf":
+            return await self._extract_pdf_content(file_path)
+        elif content_type in [
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/msword"
+        ]:
+            return await self._extract_word_content(file_path)
+        else:
+            raise ValueError(f"不支持的文件类型: {content_type}")
     
     async def _extract_pdf_content(self, file_path: str) -> Dict[str, Any]:
         """

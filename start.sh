@@ -45,5 +45,7 @@ echo "启动服务:"
 echo "1. 启动后端服务器: cd backend && source venv/bin/activate && python main.py"
 echo "2. 启动前端服务器: cd frontend && npm start"
 echo ""
+cd backend && source venv/bin/activate && python main.py
+cd frontend && npm start
 echo "访问地址: http://localhost:3000"
 echo ""

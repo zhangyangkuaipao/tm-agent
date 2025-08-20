@@ -81,6 +81,175 @@
   background: transparent;
 }
 
+/* 敏感信息统计样式 */
+.sensitive-entities-stats {
+  border-radius: 8px;
+  border: 2px solid #f59e0b;
+  background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1);
+}
+
+.entity-tag {
+  display: inline-block;
+  background-color: #f59e0b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin: 2px 4px 2px 0;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 内容切换按钮样式 */
+.content-switch-buttons {
+  display: flex;
+  gap: 8px;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.content-switch-button {
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.content-switch-button.active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.content-switch-button.anonymized {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.content-switch-button.original {
+  background-color: #ef4444;
+  color: white;
+}
+
+.content-switch-button:not(.active) {
+  background-color: transparent;
+  color: #64748b;
+}
+
+.content-switch-button:not(.active):hover {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+/* 设置面板样式 */
+.settings-panel {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.settings-header {
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.rule-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.rule-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.rule-checkbox-item:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.rule-checkbox-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.settings-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-input {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+  background-color: white;
+}
+
+.settings-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.settings-example {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 6px;
+}
+
+/* 内容显示区域样式 */
+.content-display-area {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.content-display-area.original {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 2px solid #fca5a5;
+}
+
+.content-display-area.anonymized {
+  background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+  border: 2px solid #93c5fd;
+}
+
+.security-warning {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 1px solid #f87171;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #dc2626;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.1);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .chat-container {
@@ -88,7 +257,7 @@
   }
   
   .message {
-    max-width: 90%;
+    max-width: 95%;
     width: fit-content;
     min-width: 150px;
   }
@@ -102,6 +271,28 @@
     padding: 15px;
   }
   
+  .settings-panel {
+    margin-bottom: 12px;
+  }
+  
+  .rule-checkbox-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .content-switch-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .content-switch-button {
+    width: 100%;
+    padding: 8px 12px;
+  }
+  
   /* 移动端滚动条样式 */
   .chat-messages::-webkit-scrollbar {
     width: 6px;
@@ -109,5 +300,32 @@
   
   .file-content::-webkit-scrollbar {
     width: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .message {
+    max-width: 98%;
+    min-width: 120px;
+    font-size: 14px;
+  }
+  
+  .file-content {
+    max-width: 100%;
+    font-size: 12px;
+    padding: 12px;
+  }
+  
+  .rule-checkbox-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-panel {
+    padding: 12px;
+  }
+  
+  .entity-tag {
+    font-size: 10px;
+    padding: 1px 6px;
   }
 }
