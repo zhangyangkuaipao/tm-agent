@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [localIP, setLocalIP] = useState('localhost');
   const [messages, setMessages] = useState([
     {
       id: '1',
@@ -23,6 +24,50 @@ function App() {
     keep_suffix: 2
   });
   const fileInputRef = useRef(null);
+
+  // 获取本地IP地址
+  const getLocalIP = async () => {
+    try {
+      // 使用WebRTC获取本地IP
+      const pc = new RTCPeerConnection({
+        iceServers: []
+      });
+      
+      pc.createDataChannel('');
+      
+      return new Promise((resolve) => {
+        pc.onicecandidate = (event) => {
+          if (event.candidate) {
+            const candidate = event.candidate.candidate;
+            const ip = candidate.split(' ')[4];
+            if (ip && ip.includes('.') && !ip.startsWith('127.') && !ip.startsWith('169.254.')) {
+              pc.close();
+              resolve(ip);
+            }
+          }
+        };
+        
+        pc.createOffer().then(offer => pc.setLocalDescription(offer));
+        
+        // 超时处理，如果5秒内没有获取到IP，使用localhost
+        setTimeout(() => {
+          pc.close();
+          resolve('localhost');
+        }, 5000);
+      });
+    } catch (error) {
+      console.log('无法获取本地IP，使用localhost:', error);
+      return 'localhost';
+    }
+  };
+
+  // 组件加载时获取本地IP
+  useEffect(() => {
+    getLocalIP().then(ip => {
+      setLocalIP(ip);
+      console.log('检测到本地IP:', ip);
+    });
+  }, []);
 
   const handleFileUpload = async (file) => {
     if (!file) return;
@@ -49,7 +94,7 @@ function App() {
       formData.append('file', file);
       formData.append('config', JSON.stringify(anonymizeSettings));
 
-      const response = await axios.post('http://localhost:8000/api/upload', formData, {
+      const response = await axios.post(`http://172.18.40.140:8001/api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+python-docx
+pdfplumber
+aiofiles
+
+# LangChain 最小化依赖
+langchain-core
+langchain-community
