@@ -1,5 +1,4 @@
 import pdfplumber
-import fitz  # PyMuPDF
 from docx import Document
 import os
 from typing import Dict, Any
@@ -47,7 +46,7 @@ class FileProcessor:
         }
         
         try:
-            # 首先尝试使用pdfplumber
+            # 使用pdfplumber提取PDF内容
             with pdfplumber.open(file_path) as pdf:
                 metadata["pages"] = len(pdf.pages)
                 for page_num, page in enumerate(pdf.pages, 1):
@@ -65,34 +64,8 @@ class FileProcessor:
                         "creation_date": str(pdf.metadata.get("CreationDate", "")),
                     })
         
-        except Exception as e1:
-            # 如果pdfplumber失败，尝试使用PyMuPDF
-            try:
-                metadata["extraction_method"] = "PyMuPDF"
-                doc = fitz.open(file_path)
-                metadata["pages"] = doc.page_count
-                
-                for page_num in range(doc.page_count):
-                    page = doc[page_num]
-                    page_text = page.get_text()
-                    if page_text:
-                        content += f"\n--- 第 {page_num + 1} 页 ---\n"
-                        content += page_text + "\n"
-                
-                # 获取元数据
-                meta = doc.metadata
-                if meta:
-                    metadata.update({
-                        "title": meta.get("title", ""),
-                        "author": meta.get("author", ""),
-                        "creator": meta.get("creator", ""),
-                        "creation_date": meta.get("creationDate", ""),
-                    })
-                
-                doc.close()
-            
-            except Exception as e2:
-                raise Exception(f"PDF提取失败 - pdfplumber错误: {str(e1)}, PyMuPDF错误: {str(e2)}")
+        except Exception as e:
+            raise Exception(f"PDF提取失败: {str(e)}")
         
         if not content.strip():
             raise Exception("PDF文件中未找到可提取的文本内容")
